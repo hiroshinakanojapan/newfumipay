@@ -6,17 +6,6 @@ import { AddExpenseModal } from './components/AddExpenseModal'
 import { useExpenses } from './hooks/useExpenses'
 import { SettlementModal } from './components/SettlementModal'
 
-// 仮の支出データ型
-interface Expense {
-  id: number;
-  date: string;
-  description: string;
-  amount: number;
-  payer: '自分' | '相手';
-  memo?: string;
-  ratio?: number; // 自分の負担割合（0〜1）
-}
-
 function App() {
   const { expenses, addExpense, addSettlement, deleteExpense, calculateBalance, DEFAULT_RATIO } = useExpenses();
   const [showModal, setShowModal] = useState(false);
