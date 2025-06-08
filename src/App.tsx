@@ -98,7 +98,7 @@ function App() {
       <SettlementModal
         isOpen={showGiveModal}
         onClose={() => setShowGiveModal(false)}
-        onSubmit={(amount, payer, memo) => {
+        onSubmit={(amount, _payer, memo) => {
           addSettlement(amount, '自分', memo);
           setShowGiveModal(false);
         }}
@@ -109,7 +109,7 @@ function App() {
       <SettlementModal
         isOpen={showReceiveModal}
         onClose={() => setShowReceiveModal(false)}
-        onSubmit={(amount, payer, memo) => {
+        onSubmit={(amount, _payer, memo) => {
           addSettlement(amount, '相手', memo);
           setShowReceiveModal(false);
         }}
