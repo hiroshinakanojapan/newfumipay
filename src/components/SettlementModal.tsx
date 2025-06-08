@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 interface SettlementModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (amount: number, payer: '自分' | '相手', memo: string) => void;
+  onSubmit: (amount: number, payer: '中野' | 'ふみちゃん', memo: string) => void;
   defaultAmount: number;
-  payer: '自分' | '相手';
+  payer: '中野' | 'ふみちゃん';
   mode: 'give' | 'receive';
 }
 
@@ -34,8 +34,8 @@ export const SettlementModal: React.FC<SettlementModalProps> = ({
 
   if (!isOpen) return null;
 
-  const title = mode === 'give' ? 'お金を渡した記録' : 'お金を受け取った記録';
-  const label = mode === 'give' ? '相手に渡した金額' : '相手から受け取った金額';
+  const title = mode === 'give' ? 'ふみが送金' : '中野が送金';
+  const label = mode === 'give' ? 'ふみちゃんが送金した金額' : '中野が送金した金額';
 
   return (
     <div

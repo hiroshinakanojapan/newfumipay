@@ -6,21 +6,18 @@ interface BalanceDisplayProps {
 
 export const BalanceDisplay: React.FC<BalanceDisplayProps> = ({ balance }) => {
   return (
-    <div
-      style={{
-        background: balance < 0 ? '#ffe5e5' : '#e5f7ee',
-        color: balance < 0 ? '#d32f2f' : '#388e3c',
-        borderRadius: 12,
-        padding: 20,
-        marginBottom: 24,
-        textAlign: 'center',
+    <div className="balance-summary" style={{ textAlign: 'center' }}>
+      <div style={{
+        color: balance < 0 ? '#1976d2' : '#ff8c8c',
         fontWeight: 'bold',
-        fontSize: 20,
-      }}
-    >
-      {balance < 0
-        ? `相手に返す：￥${Math.abs(Math.round(balance))}`
-        : `相手から受け取る：￥${Math.round(balance)}`}
+        fontSize: 32,
+        marginBottom: 4,
+      }}>
+        ￥{Math.abs(Math.round(balance))}
+      </div>
+      <div style={{ fontSize: 16, color: '#888' }}>
+        {balance < 0 ? '中野が受け取る' : 'ふみちゃんが受け取る'}
+      </div>
     </div>
   );
 }; 

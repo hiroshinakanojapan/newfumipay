@@ -17,6 +17,10 @@ function App() {
 
   return (
     <div className="app-container" style={{ maxWidth: 400, margin: '0 auto', padding: 16, fontFamily: 'sans-serif' }}>
+      <div className="header" style={{ textAlign: 'center', marginBottom: 16 }}>
+        <img src="/src/assets/kumamon-like.svg" alt="ふみペイキャラ" style={{ width: 64, height: 64, display: 'block', margin: '0 auto 8px' }} />
+        <h1 style={{ fontFamily: 'cursive', fontSize: 28, margin: 0 }}>ふみペイ</h1>
+      </div>
       <BalanceDisplay balance={calculateBalance()} />
       <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
         <button
@@ -35,7 +39,7 @@ function App() {
           onClick={() => defaultAmount !== 0 && setShowGiveModal(true)}
           disabled={defaultAmount === 0}
         >
-          相手に渡した
+          ふみが送金
         </button>
         <button
           style={{
@@ -53,30 +57,47 @@ function App() {
           onClick={() => defaultAmount !== 0 && setShowReceiveModal(true)}
           disabled={defaultAmount === 0}
         >
-          相手から受け取った
+          中野が送金
         </button>
       </div>
       <ExpenseList expenses={expenses} onDelete={deleteExpense} />
       <button
         style={{
           position: 'fixed',
-          right: 24,
-          bottom: 24,
-          width: 56,
-          height: 56,
-          borderRadius: '50%',
-          background: '#1976d2',
-          color: '#fff',
-          fontSize: 32,
+          left: 0,
+          bottom: 0,
+          width: '100%',
+          height: 64,
+          borderRadius: '24px 24px 0 0',
+          background: 'linear-gradient(90deg, #ffb6b6 0%, #ffe0e0 100%)',
+          color: '#d16d6d',
+          fontSize: 22,
+          fontWeight: 'bold',
+          fontFamily: "'M PLUS Rounded 1c', 'Noto Sans JP', sans-serif",
           border: 'none',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+          boxShadow: '0 -4px 16px rgba(255, 170, 170, 0.15)',
           cursor: 'pointer',
           zIndex: 2000,
+          letterSpacing: 2,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 8,
+          transition: 'background 0.2s, color 0.2s',
         }}
         aria-label="支出を追加"
         onClick={() => setShowModal(true)}
+        onMouseOver={e => {
+          e.currentTarget.style.background = 'linear-gradient(90deg, #ff8c8c 0%, #ffd6d6 100%)';
+          e.currentTarget.style.color = '#fff';
+        }}
+        onMouseOut={e => {
+          e.currentTarget.style.background = 'linear-gradient(90deg, #ffb6b6 0%, #ffe0e0 100%)';
+          e.currentTarget.style.color = '#d16d6d';
+        }}
       >
-        ＋
+        <span style={{ fontSize: 28 }}>🧸</span>
+        支出を追加
       </button>
       <AddExpenseModal
         isOpen={showModal}
@@ -88,22 +109,22 @@ function App() {
         isOpen={showGiveModal}
         onClose={() => setShowGiveModal(false)}
         onSubmit={(amount, _payer, memo) => {
-          addSettlement(amount, '自分', memo);
+          addSettlement(amount, 'ふみちゃん', memo);
           setShowGiveModal(false);
         }}
         defaultAmount={defaultAmount}
-        payer={'自分'}
+        payer={'ふみちゃん'}
         mode={'give'}
       />
       <SettlementModal
         isOpen={showReceiveModal}
         onClose={() => setShowReceiveModal(false)}
         onSubmit={(amount, _payer, memo) => {
-          addSettlement(amount, '相手', memo);
+          addSettlement(amount, '中野', memo);
           setShowReceiveModal(false);
         }}
         defaultAmount={defaultAmount}
-        payer={'相手'}
+        payer={'中野'}
         mode={'receive'}
       />
     </div>

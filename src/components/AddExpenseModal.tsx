@@ -18,7 +18,7 @@ export const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
     date: new Date().toISOString().slice(0, 10),
     description: '',
     amount: '',
-    payer: '自分',
+    payer: '中野',
     memo: '',
     ratio: defaultRatio,
   });
@@ -34,11 +34,12 @@ export const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(form);
+    onClose();
     setForm({
       date: new Date().toISOString().slice(0, 10),
       description: '',
       amount: '',
-      payer: '自分',
+      payer: '中野',
       memo: '',
       ratio: defaultRatio,
     });
@@ -116,8 +117,8 @@ export const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
             onChange={handleFormChange}
             style={{ width: '100%' }}
           >
-            <option value="自分">自分</option>
-            <option value="相手">相手</option>
+            <option value="中野">中野</option>
+            <option value="ふみちゃん">ふみちゃん</option>
           </select>
         </label>
         <label>
@@ -132,19 +133,17 @@ export const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
         </label>
         <label>
           負担割合：
-          <input
-            type="range"
+          <select
             name="ratio"
-            min="0"
-            max="1"
-            step="0.1"
             value={form.ratio}
             onChange={handleFormChange}
             style={{ width: '100%' }}
-          />
-          <div style={{ textAlign: 'center' }}>
-            {Math.round(form.ratio * 100)}% : {Math.round((1 - form.ratio) * 100)}%
-          </div>
+          >
+            <option value={0.5}>中野:ふみちゃん = 50:50</option>
+            <option value={0.66}>中野:ふみちゃん = 66:34</option>
+            <option value={0.75}>中野:ふみちゃん = 75:25</option>
+            <option value={1}>中野:ふみちゃん = 100:0</option>
+          </select>
         </label>
         <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
           <button
@@ -153,11 +152,16 @@ export const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
             style={{
               flex: 1,
               padding: 8,
-              background: '#f5f5f5',
+              background: '#ffe0e0',
+              color: '#d16d6d',
               border: 'none',
               borderRadius: 4,
               cursor: 'pointer',
+              fontWeight: 'bold',
+              transition: 'background 0.2s',
             }}
+            onMouseOver={e => (e.currentTarget.style.background = '#ffb6b6')}
+            onMouseOut={e => (e.currentTarget.style.background = '#ffe0e0')}
           >
             キャンセル
           </button>
@@ -172,6 +176,7 @@ export const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
               borderRadius: 4,
               cursor: 'pointer',
             }}
+            disabled={!form.description || !form.amount}
           >
             追加
           </button>
