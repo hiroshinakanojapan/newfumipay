@@ -37,7 +37,6 @@ export const useExpenses = () => {
         description: form.description,
         amount: Number(form.amount),
         payer: form.payer,
-        memo: form.memo || undefined,
         ratio: form.ratio,
       },
       ...prev,
