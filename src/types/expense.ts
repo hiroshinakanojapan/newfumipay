@@ -13,6 +13,5 @@ export interface ExpenseForm {
   description: string;
   amount: string;
   payer: '中野' | 'ふみちゃん';
-  memo: string;
   ratio: number;
 } 

@@ -18,7 +18,7 @@ function App() {
   return (
     <div className="app-container" style={{ maxWidth: 400, margin: '0 auto', padding: 16, fontFamily: 'sans-serif' }}>
       <div className="header" style={{ textAlign: 'center', marginBottom: 16 }}>
-        <img src="/src/assets/kumamon-like.svg" alt="ふみペイキャラ" style={{ width: 64, height: 64, display: 'block', margin: '0 auto 8px' }} />
+        <img src="/assets/kumamon-like.svg" alt="ふみペイキャラ" style={{ width: 64, height: 64, display: 'block', margin: '0 auto 8px' }} />
         <h1 style={{ fontFamily: 'cursive', fontSize: 28, margin: 0 }}>ふみペイ</h1>
       </div>
       <BalanceDisplay balance={calculateBalance()} />

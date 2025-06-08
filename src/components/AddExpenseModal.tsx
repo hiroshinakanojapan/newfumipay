@@ -19,7 +19,6 @@ export const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
     description: '',
     amount: '',
     payer: '中野',
-    memo: '',
     ratio: defaultRatio,
   });
 
@@ -40,7 +39,6 @@ export const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
       description: '',
       amount: '',
       payer: '中野',
-      memo: '',
       ratio: defaultRatio,
     });
   };
@@ -120,16 +118,6 @@ export const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
             <option value="中野">中野</option>
             <option value="ふみちゃん">ふみちゃん</option>
           </select>
-        </label>
-        <label>
-          メモ：
-          <input
-            type="text"
-            name="memo"
-            value={form.memo}
-            onChange={handleFormChange}
-            style={{ width: '100%' }}
-          />
         </label>
         <label>
           負担割合：

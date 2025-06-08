@@ -45,6 +45,11 @@ body, html {
   overflow-x: hidden;
   background: #fff8f0;
   font-family: 'M PLUS Rounded 1c', 'Noto Sans JP', sans-serif;
+  line-height: 1.6;
+}
+
+body {
+  font-size: 17px;
 }
 
 .app-container {
@@ -55,6 +60,13 @@ body, html {
   margin: 16px auto;
 }
 
+button, input, select, textarea {
+  min-width: 44px;
+  min-height: 44px;
+  font-size: 17px !important;
+  padding: 10px 12px;
+}
+
 button {
   border-radius: 12px;
   background: #ffb6b6;
@@ -62,6 +74,7 @@ button {
   font-weight: bold;
   transition: background 0.2s;
   box-shadow: 0 2px 8px rgba(255, 170, 170, 0.10);
+  margin-bottom: 8px;
 }
 button:hover {
   background: #ff8c8c;
@@ -117,4 +130,63 @@ label {
   color: #ff8c8c;
   letter-spacing: 2px;
   font-weight: 700;
+}
+
+.modal-form button {
+  margin-bottom: 0;
+}
+
+/* ボタン同士の間隔 */
+.modal-form .button-row, .modal-form .button-row > * {
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    padding: 8px;
+    border-radius: 0;
+    margin: 0;
+  }
+  .expense-card {
+    padding: 10px;
+    font-size: 15px;
+  }
+  .balance-summary {
+    font-size: 18px;
+    padding: 14px;
+  }
+  button, input, select, textarea {
+    font-size: 17px;
+    min-height: 44px;
+  }
+  .header h1 {
+    font-size: 22px;
+  }
+  body {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-container {
+    padding: 4px;
+  }
+  .expense-card {
+    padding: 6px;
+    font-size: 14px;
+  }
+  .balance-summary {
+    font-size: 15px;
+    padding: 8px;
+  }
+  button, input, select, textarea {
+    font-size: 16px;
+    min-height: 44px;
+  }
+  .header h1 {
+    font-size: 18px;
+  }
+  body {
+    font-size: 15px;
+  }
 }
