@@ -20,7 +20,6 @@ interface Expense {
 function App() {
   const { expenses, addExpense, addSettlement, deleteExpense, calculateBalance, DEFAULT_RATIO } = useExpenses();
   const [showModal, setShowModal] = useState(false);
-  const [showSettlement, setShowSettlement] = useState(false);
   const [showGiveModal, setShowGiveModal] = useState(false);
   const [showReceiveModal, setShowReceiveModal] = useState(false);
 
