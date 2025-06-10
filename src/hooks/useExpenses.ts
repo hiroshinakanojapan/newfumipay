@@ -1,65 +1,68 @@
 import { useState, useEffect } from 'react';
+import { ref, onValue, set, remove, push } from 'firebase/database';
+import { database } from '../firebase/config';
 import type { Expense, ExpenseForm } from '../types/expense';
 
-const STORAGE_KEY = 'couple-expense-history';
 const DEFAULT_RATIO = 0.5;
 
-const initialExpenses: Expense[] = [
-  { id: 1, date: '2025/06/01', description: '食料品', amount: 3000, payer: '中野', ratio: DEFAULT_RATIO },
-  { id: 2, date: '2025/05/30', description: '映画代', amount: 2000, payer: 'ふみちゃん', ratio: DEFAULT_RATIO },
-  { id: 3, date: '2025/05/28', description: '精算', amount: 5000, payer: '中野', memo: 'PayPay', ratio: DEFAULT_RATIO },
-];
-
 export const useExpenses = () => {
-  const [expenses, setExpenses] = useState<Expense[]>(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch {
-        return initialExpenses;
-      }
-    }
-    return initialExpenses;
-  });
+  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(expenses));
-  }, [expenses]);
+    const expensesRef = ref(database, 'expenses');
+    
+    const unsubscribe = onValue(expensesRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const expensesArray = Object.entries(data).map(([id, expense]: [string, any]) => ({
+          ...expense,
+          id: Number(id)
+        }));
+        setExpenses(expensesArray.sort((a, b) => b.id - a.id));
+      } else {
+        setExpenses([]);
+      }
+      setLoading(false);
+    });
 
-  const addExpense = (form: ExpenseForm) => {
+    return () => unsubscribe();
+  }, []);
+
+  const addExpense = async (form: ExpenseForm) => {
     if (!form.description || !form.amount) return;
     
-    setExpenses((prev) => [
-      {
-        id: prev.length ? prev[0].id + 1 : 1,
-        date: form.date.replace(/-/g, '/'),
-        description: form.description,
-        amount: Number(form.amount),
-        payer: form.payer,
-        ratio: form.ratio,
-      },
-      ...prev,
-    ]);
+    const newExpense = {
+      date: form.date.replace(/-/g, '/'),
+      description: form.description,
+      amount: Number(form.amount),
+      payer: form.payer,
+      ratio: form.ratio,
+    };
+
+    const expensesRef = ref(database, 'expenses');
+    const newExpenseRef = push(expensesRef);
+    await set(newExpenseRef, newExpense);
   };
 
-  const addSettlement = (amount: number, payer: '中野' | 'ふみちゃん', memo: string) => {
-    setExpenses((prev) => [
-      {
-        id: prev.length ? prev[0].id + 1 : 1,
-        date: new Date().toISOString().slice(0, 10).replace(/-/g, '/'),
-        description: '送金',
-        amount,
-        payer,
-        memo: memo || undefined,
-        ratio: DEFAULT_RATIO,
-      },
-      ...prev,
-    ]);
+  const addSettlement = async (amount: number, payer: '中野' | 'ふみちゃん', memo: string) => {
+    const newSettlement = {
+      date: new Date().toISOString().slice(0, 10).replace(/-/g, '/'),
+      description: '送金',
+      amount,
+      payer,
+      memo: memo || undefined,
+      ratio: DEFAULT_RATIO,
+    };
+
+    const expensesRef = ref(database, 'expenses');
+    const newSettlementRef = push(expensesRef);
+    await set(newSettlementRef, newSettlement);
   };
 
-  const deleteExpense = (id: number) => {
-    setExpenses((prev) => prev.filter(exp => exp.id !== id));
+  const deleteExpense = async (id: number) => {
+    const expenseRef = ref(database, `expenses/${id}`);
+    await remove(expenseRef);
   };
 
   const calculateBalance = () => {
@@ -82,6 +85,7 @@ export const useExpenses = () => {
 
   return {
     expenses,
+    loading,
     addExpense,
     addSettlement,
     deleteExpense,
